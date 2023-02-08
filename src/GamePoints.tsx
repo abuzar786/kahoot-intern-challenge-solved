@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useEffect } from 'react';
 
 import {
   drawerWidth,
@@ -17,11 +18,18 @@ import { Main } from './components/Main';
 import { AppBar } from './components/AppBar';
 import { DrawerHeader } from './components/DrawerHeader';
 
+
 export const GamePoints: React.FC = () => {
   const theme = useTheme();
   const [playerItems, setPlayerItems] = React.useState<string[]>([]);
   const [isDrawerOpen, setIsOpen] = React.useState(true);
 
+  useEffect(() => {
+    window.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      if (!!items[key]) handleSelectItem(key);
+    })
+  }, []);
   const handleOpenDrawer = () => {
     setIsOpen(true);
   };
@@ -31,10 +39,7 @@ export const GamePoints: React.FC = () => {
   };
 
   const handleSelectItem = (itemId: string) => {
-    setPlayerItems([
-      ...playerItems,
-      itemId,
-    ]);
+    setPlayerItems((state) => [...state, itemId]);
   };
 
   const handleNewGame = () => {
