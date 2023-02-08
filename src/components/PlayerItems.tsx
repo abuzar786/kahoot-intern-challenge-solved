@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 
 import { ItemsDefinition } from "types";
-import { PlayerItemsList, Rows } from "./PlayerItemsList";
+import { ItemRow, PlayerItemsList, Rows } from "./PlayerItemsList";
 import { PlayerItemsSummary } from "./PlayerItemsSummary";
 
 type PlayerItemsProps = {
@@ -65,6 +65,38 @@ export const PlayerItems: React.FC<PlayerItemsProps> = ({
 };
 
 function calculateRows(items: ItemsDefinition, playerItems: string[]): Rows {
-  // todo
-  return {};
+  if (playerItems.length === 0) return {};
+
+  const rows: Rows = {};
+
+  playerItems.forEach((playerItem) => {
+    let itemRow: ItemRow;
+    let row = rows["row_" + playerItem];
+
+    // first occurance
+    if (!row) {
+      itemRow = {
+        item: items?.[playerItem],
+        count: 1,
+        score: items?.[playerItem].value,
+        bonus: 0,
+      };
+    }
+    // second onwards occurance
+    else {
+      row.count++;
+      itemRow = {
+        item: row.item,
+        count: row.count,
+        score: row.score + row.item.value,
+        bonus:
+          Math.floor(row.count / (row.item.bonus?.count || 1)) *
+          (row.item.bonus?.amount || 0),
+      };
+    }
+
+    rows["row_" + playerItem] = itemRow;
+  });
+
+  return rows;
 }
