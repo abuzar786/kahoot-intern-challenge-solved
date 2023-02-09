@@ -27,5 +27,9 @@ This is a simplified version of the assignment we give to regular candidates. We
 5. Please document any assumptions or notes you want to share below, at the bottom of this readme.
 
 # Notes submitted by the candidate
+1. Defined the constant and assigned type.
+2. Loop through the player items
+1. Calculate the Bonus and Score
+2. Render data through itemRow object
 
-todo
+make it keyboard friendly by using useEffect Hook.
